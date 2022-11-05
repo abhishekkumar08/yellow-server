@@ -26,6 +26,14 @@ const configFriends = {
   },
 };
 
+const configUser = {
+  method: 'get',
+  url: 'https://secure.splitwise.com/api/v3.0/get_current_user',
+  headers: {
+    Authorization: 'Bearer kWBPEcnlKIltB8kpT10ez8ZEnckzVHeW5LrcrCJv',
+  },
+};
+
 const PORT = process.env.PORT || 5000;
 
 // default
@@ -49,6 +57,19 @@ app.get('/expenses', (req, res) => {
 app.get('/friends', (req, res) => {
   axios(configFriends)
     .then((data) => {
+      res.send(data.data);
+    })
+    .catch((err) => {
+      res.statusCode = 400;
+      res.send({ message: err });
+    });
+});
+
+// get current user
+app.get('/get_user', (req, res) => {
+  axios(configUser)
+    .then((data) => {
+      console.log(data);
       res.send(data.data);
     })
     .catch((err) => {
